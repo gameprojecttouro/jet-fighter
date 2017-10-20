@@ -93,9 +93,6 @@ function create() {
 }
 
 function update () {
-
-
-
     //  Scroll the background
     starfield.tilePosition.y += 2;
     // collision of bullter and alien
@@ -117,15 +114,12 @@ function update () {
     {
         fireBullet();
     }
-
-
 }
 
 function setupInvader (invader) {
     invader.anchor.x = 0.5;
     invader.anchor.y = 0.5;
     invader.animations.add('kaboom');
-
 }
 
 
@@ -164,7 +158,6 @@ function fireBullet () {
 }
 
 function alienOut(alien) {
-
     //  Move the alien to the top of the screen again
     alien.reset(alien.x, 0);
     //  And give it a new random velocity
