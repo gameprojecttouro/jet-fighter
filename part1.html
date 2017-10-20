@@ -57,15 +57,10 @@ game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 }
 
 function create() {
-
-
 //  We only want world bounds on the left and right
         game.physics.setBoundsToWorld();
-
-
  //  The scrolling starfield background
     starfield = game.add.tileSprite(0, 0, 800, 600, 'starfield');
- 
 
 	bullets = game.add.physicsGroup();
     bullets.createMultiple(32, 'bullet', false);
