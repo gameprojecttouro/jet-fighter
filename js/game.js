@@ -95,10 +95,10 @@ function create() {
 
 	 //  Lives
     lives = game.add.group();
-    game.add.text(game.world.width - 100, 10, 'LIVES : ', { font: '30px Arial', fill: '#fff' });
+    game.add.text(game.world.width - 100, 10, 'LIVES', { font: '25px Helvetica', fill: '#111' });
 
     //  Text
-    stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '84px Arial', fill: '#000' });
+    stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '35px Helvetica', fill: '#8B0000' });
     stateText.anchor.setTo(0.5, 0.5);
     stateText.visible = false;
 
@@ -106,7 +106,7 @@ function create() {
 	// create lives for player
     for (var i = 0; i < 3; i++) 
     {
-        var ship = lives.create(game.world.width - 80 + (30 * i), 70, 'ship');
+        var ship = lives.create(game.world.width - 98 + (30 * i), 70, 'ship');
         ship.anchor.setTo(0.5, 0.5);
         ship.angle = 90;
         ship.alpha = 0.5;
