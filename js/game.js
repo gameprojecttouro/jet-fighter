@@ -1,5 +1,9 @@
 // Initialize game
+var player = prompt("Please enter your name", "name");
+localStorage.setItem("playerName", player);
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+//var game = new Phaser.Game(window.screen.availWidth * window.devicePixelRatio, 
+  //  window.screen.availHeight * window.devicePixelRatio, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 var player;
 var bullets;
@@ -27,7 +31,12 @@ var firingTimer = 0;
 var stateText;
 var livingEnemies = [];
 
-var BULLET_SPEED = 800;
+// virtual controls
+var left=false;
+var right=false;
+var fire=false;
+
+var BULLET_SPEED = 1000;
 
 function preload() {
 	//game.load.baseURL = 'http://examples.phaser.io/assets/';
@@ -49,10 +58,24 @@ game.load.spritesheet('kaboom_old', 'http://examples.phaser.io/assets/games/inva
   game.load.spritesheet('kaboom', 'assets/explosionBig.png',111,109);
 //game.load.image('alien', 'assets/ship3.png');
    game.load.image('enemyBullet', 'assets/icons8-Missile-16.png');
-   
+   game.load.spritesheet('buttonvertical', 'http://examples.phaser.io/assets/buttons/buttons-big/button-vertical.png',64,64);
+   game.load.spritesheet('buttonhorizontal', 'http://examples.phaser.io/assets/buttons/buttons-big/button-horizontal.png',96,64);
+   game.load.spritesheet('buttonfire', 'http://examples.phaser.io/assets/buttons/buttons-big/button-round-a.png',96,96);
 }
 
 function create() {
+    if (!game.device.desktop){ game.input.onDown.add(gofull, this); } //go fullscreen on mobile devices
+
+// Stretch to fill
+game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+
+    // Keep original size
+    // game.scale.fullScreenScaleMode = Phaser.ScaleManager.NO_SCALE;
+
+    // Maintain aspect ratio
+     game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
+
+
 //  We only want world bounds on the left and right
         game.physics.setBoundsToWorld();
  //  The scrolling starfield background
@@ -95,7 +118,7 @@ function create() {
 
 	 //  Lives
     lives = game.add.group();
-    game.add.text(game.world.width - 100, 10, 'LIVES', { font: '25px Helvetica', fill: '#111' });
+    game.add.text(game.world.width - 120, 10, localStorage.getItem("playerName") + ' Lives', { font: '25px Helvetica', fill: '#111' });
 
     //  Text
     stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '35px Helvetica', fill: '#8B0000' });
@@ -116,12 +139,12 @@ function create() {
     }
 	
 
-    //  An explosion pool
+    //  An explosion pool for aliens
     explosions = game.add.group();
     explosions.createMultiple(20, 'kaboom');
     explosions.forEach(setupInvader, this);
 	
-	//  An explosion pool
+	//  Another explosion pool for player
     explosionsOld = game.add.group();
     explosionsOld.createMultiple(20, 'kaboom_old');
     explosionsOld.forEach(setupInvader, this);
@@ -130,8 +153,43 @@ function create() {
     scoreString = 'Score : ';
     scoreText = game.add.text(10, 10, scoreString + score, { font: '34px Arial', fill: '#000' });
 
+    // on screen controls 
+    buttonfire = game.add.button(700, 500, 'buttonfire', null, this, 0, 1, 0, 1);
+    buttonfire.fixedToCamera = true;
+    buttonfire.events.onInputOver.add(function(){fire=true;});
+    buttonfire.events.onInputOut.add(function(){fire=false;});
+    buttonfire.events.onInputDown.add(function(){fire=true;});
+    buttonfire.events.onInputUp.add(function(){fire=false;});        
+
+    buttonleft = game.add.button(0, 472, 'buttonhorizontal', null, this, 0, 1, 0, 1);
+    buttonleft.fixedToCamera = true;
+    buttonleft.events.onInputOver.add(function(){left=true;});
+    buttonleft.events.onInputOut.add(function(){left=false;});
+    buttonleft.events.onInputDown.add(function(){left=true;});
+    buttonleft.events.onInputUp.add(function(){left=false;});
+
+    buttonright = game.add.button(160, 472, 'buttonhorizontal', null, this, 0, 1, 0, 1);
+    buttonright.fixedToCamera = true;
+    buttonright.events.onInputOver.add(function(){right=true;});
+    buttonright.events.onInputOut.add(function(){right=false;});
+    buttonright.events.onInputDown.add(function(){right=true;});
+    buttonright.events.onInputUp.add(function(){right=false;});
+
 
 }
+
+function gofull() {
+    
+        if (game.scale.isFullScreen)
+        {
+            game.scale.stopFullScreen();
+        }
+        else
+        {
+            game.scale.startFullScreen(false);
+        }
+    
+    }
 
 function createAliens () {
 
@@ -183,17 +241,17 @@ function update () {
 
     player.body.velocity.x = 0;
 
-    if (cursors.left.isDown)
+    if (cursors.left.isDown || left)
 		
     {
 		player.body.velocity.x = -600;
     }
-    else if (cursors.right.isDown)
+    else if (cursors.right.isDown || right)
     {
         player.body.velocity.x = 600;
     }
 
-    if (fireButton.isDown)
+    if (fireButton.isDown || fire)
     {
         fireBullet();
     }
@@ -291,8 +349,8 @@ function enemyFires () {
         livingEnemies.push(alien);
     });
 //game.physics.arcade.velocityFromRotation(player.rotation, 400, enemyBullet.body.velocity);
-   enemyBullet.body.velocity.x = Math.cos(enemyBullet.rotation) * this.BULLET_SPEED;
-    enemyBullet.body.velocity.y = Math.sin(enemyBullet.rotation) * this.BULLET_SPEED;
+ //  enemyBullet.body.velocity.x = Math.cos(enemyBullet.rotation) * this.BULLET_SPEED;
+  //  enemyBullet.body.velocity.y = Math.sin(enemyBullet.rotation) * this.BULLET_SPEED;
 
     if (enemyBullet && livingEnemies.length > 0)
     {
