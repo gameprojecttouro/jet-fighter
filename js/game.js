@@ -1,7 +1,7 @@
 // Initialize game
 var player = prompt("Please enter your name", "name");
 localStorage.setItem("playerName", player);
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(414, 736, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 //var game = new Phaser.Game(window.screen.availWidth * window.devicePixelRatio, 
   //  window.screen.availHeight * window.devicePixelRatio, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
@@ -42,20 +42,20 @@ function preload() {
 	//game.load.baseURL = 'http://examples.phaser.io/assets/';
     game.load.crossOrigin = 'anonymous';
 
-		game.stage.backgroundColor = "#697e96";
-		game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-		game.scale.pageAlignHorizontally = true;
-        game.scale.pageAlignVertically = true;
-        game.stage.disableVisibilityChange = true;
-		game.load.image('ship', 'assets/fighters2.png');
+	game.stage.backgroundColor = "#697e96";
+	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+	game.scale.pageAlignHorizontally = true;
+   // game.scale.pageAlignVertically = true;
+    game.stage.disableVisibilityChange = true;
+	game.load.image('ship', 'assets/fighters2.png');
    // game.load.image('bullet', 'assets/PNG/Lasers/laserBlue01.png');
-   game.load.image('bullet', 'assets/bullet0.png');
+    game.load.image('bullet', 'assets/bullet0.png');
    // game.load.image('alien', 'http://examples.phaser.io/assets/sprites/space-baddie.png');
-   game.load.image('alien', 'assets/enemy1.png');
+    game.load.image('alien', 'assets/enemy1.png');
 // parallax backgroud
     game.load.image('starfield', 'assets/bg1.png');
-game.load.spritesheet('kaboom_old', 'http://examples.phaser.io/assets/games/invaders/explode.png', 128, 128);
-  game.load.spritesheet('kaboom', 'assets/explosionBig.png',111,109);
+    game.load.spritesheet('kaboom_old', 'http://examples.phaser.io/assets/games/invaders/explode.png', 128, 128);
+    game.load.spritesheet('kaboom', 'assets/explosionBig.png',111,109);
 //game.load.image('alien', 'assets/ship3.png');
    game.load.image('enemyBullet', 'assets/icons8-Missile-16.png');
    game.load.spritesheet('buttonvertical', 'http://examples.phaser.io/assets/buttons/buttons-big/button-vertical.png',64,64);
@@ -65,21 +65,20 @@ game.load.spritesheet('kaboom_old', 'http://examples.phaser.io/assets/games/inva
 
 function create() {
     if (!game.device.desktop){ game.input.onDown.add(gofull, this); } //go fullscreen on mobile devices
-
-// Stretch to fill
-game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+   //game.input.onDown.add(gofull, this);
+    // Stretch to fill
+    game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
 
     // Keep original size
     // game.scale.fullScreenScaleMode = Phaser.ScaleManager.NO_SCALE;
 
     // Maintain aspect ratio
-     game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
-
+   //  game.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL;
 
 //  We only want world bounds on the left and right
         game.physics.setBoundsToWorld();
  //  The scrolling starfield background
-    starfield = game.add.tileSprite(0, 0, 800, 600, 'starfield');
+    starfield = game.add.tileSprite(0, 0,414,736 , 'starfield');
 
 	
 	bullets = game.add.physicsGroup();
@@ -99,7 +98,7 @@ game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
     enemyBullets.setAll('outOfBoundsKill', true);
     enemyBullets.setAll('checkWorldBounds', true);
 
-    player = game.add.sprite(200, 550, 'ship');
+    player = game.add.sprite(200, 520, 'ship');
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
 	
@@ -112,7 +111,6 @@ game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
     aliens.enableBody = true;
     aliens.physicsBodyType = Phaser.Physics.ARCADE;
 
-
 	// call the function to create aliens
     createAliens ();
 
@@ -124,7 +122,6 @@ game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
     stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '35px Helvetica', fill: '#8B0000' });
     stateText.anchor.setTo(0.5, 0.5);
     stateText.visible = false;
-
 	
 	// create lives for player
     for (var i = 0; i < 3; i++) 
@@ -135,9 +132,7 @@ game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
         ship.alpha = 0.5;
 		ship.width = 60;
 		ship.height = 40;
-
     }
-	
 
     //  An explosion pool for aliens
     explosions = game.add.group();
@@ -154,28 +149,26 @@ game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
     scoreText = game.add.text(10, 10, scoreString + score, { font: '34px Arial', fill: '#000' });
 
     // on screen controls 
-    buttonfire = game.add.button(700, 500, 'buttonfire', null, this, 0, 1, 0, 1);
+    buttonfire = game.add.button(300, 580, 'buttonfire', null, this, 0, 1, 0, 1);
     buttonfire.fixedToCamera = true;
     buttonfire.events.onInputOver.add(function(){fire=true;});
     buttonfire.events.onInputOut.add(function(){fire=false;});
     buttonfire.events.onInputDown.add(function(){fire=true;});
     buttonfire.events.onInputUp.add(function(){fire=false;});        
 
-    buttonleft = game.add.button(0, 472, 'buttonhorizontal', null, this, 0, 1, 0, 1);
+    buttonleft = game.add.button(0, 600, 'buttonhorizontal', null, this, 0, 1, 0, 1);
     buttonleft.fixedToCamera = true;
     buttonleft.events.onInputOver.add(function(){left=true;});
     buttonleft.events.onInputOut.add(function(){left=false;});
     buttonleft.events.onInputDown.add(function(){left=true;});
     buttonleft.events.onInputUp.add(function(){left=false;});
 
-    buttonright = game.add.button(160, 472, 'buttonhorizontal', null, this, 0, 1, 0, 1);
+    buttonright = game.add.button(100, 600, 'buttonhorizontal', null, this, 0, 1, 0, 1);
     buttonright.fixedToCamera = true;
     buttonright.events.onInputOver.add(function(){right=true;});
     buttonright.events.onInputOut.add(function(){right=false;});
     buttonright.events.onInputDown.add(function(){right=true;});
     buttonright.events.onInputUp.add(function(){right=false;});
-
-
 }
 
 function gofull() {
@@ -195,7 +188,7 @@ function createAliens () {
 
    for (var y = 0; y < 4; y++)
     {
-        for (var x = 0; x < 10; x++)
+        for (var x = 0; x < 5; x++)
         {
             var alien = aliens.create( x * 48, y * 50, 'alien');
 			
@@ -215,8 +208,8 @@ function createAliens () {
         }
     }
 
-    aliens.x = 100;
-    aliens.y = 80;
+    aliens.x = 0;
+    aliens.y = 70;
 
     //  All this does is basically start the invaders moving. Notice we're moving the Group they belong to, rather than the invaders directly.
     var tween = game.add.tween(aliens).to( { x: 200 }, 2000, Phaser.Easing.Linear.None, true, 0, 1000, true);
