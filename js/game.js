@@ -56,7 +56,7 @@ function preload() {
    // game.load.image('alien', 'http://examples.phaser.io/assets/sprites/space-baddie.png');
     game.load.image('alien', 'assets/enemy1.png');
 // parallax backgroud
-    game.load.image('starfield', 'assets/bg1.png');
+    game.load.image('starfield', 'http://blog.sklambert.com/wp-content/uploads/2012/09/bg.png');
     game.load.spritesheet('kaboom_old', 'http://examples.phaser.io/assets/games/invaders/explode.png', 128, 128);
     game.load.spritesheet('kaboom', 'assets/explosionBig.png',111,109);
 //game.load.image('alien', 'assets/ship3.png');
