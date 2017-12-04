@@ -1,4 +1,6 @@
 // Initialize game
+// sandesh level
+
 var player = prompt("Please enter your name", "name");
 localStorage.setItem("playerName", player);
 var game = new Phaser.Game(414, 736, Phaser.AUTO, '', { preload: preload, create: create, update: update });
@@ -37,6 +39,7 @@ var right=false;
 var fire=false;
 
 var BULLET_SPEED = 1000;
+var test;
 
 function preload() {
 	//game.load.baseURL = 'http://examples.phaser.io/assets/';
