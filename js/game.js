@@ -1,4 +1,6 @@
 // Initialize game
+// sandesh level
+
 var player = prompt("Please enter your name", "name");
 localStorage.setItem("playerName", player);
 var game = new Phaser.Game(414, 736, Phaser.AUTO, '', { preload: preload, create: create, update: update });
@@ -37,6 +39,7 @@ var right=false;
 var fire=false;
 
 var BULLET_SPEED = 1000;
+var test;
 
 function preload() {
 	//game.load.baseURL = 'http://examples.phaser.io/assets/';
@@ -53,7 +56,7 @@ function preload() {
    // game.load.image('alien', 'http://examples.phaser.io/assets/sprites/space-baddie.png');
     game.load.image('alien', 'assets/enemy1.png');
 // parallax backgroud
-    game.load.image('starfield', 'assets/bg1.png');
+    game.load.image('starfield', 'http://blog.sklambert.com/wp-content/uploads/2012/09/bg.png');
     game.load.spritesheet('kaboom_old', 'http://examples.phaser.io/assets/games/invaders/explode.png', 128, 128);
     game.load.spritesheet('kaboom', 'assets/explosionBig.png',111,109);
 //game.load.image('alien', 'assets/ship3.png');
