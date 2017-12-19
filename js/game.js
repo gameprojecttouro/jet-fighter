@@ -1,7 +1,7 @@
 // Initialize game
 // sandesh level
 
-var player = prompt("Please enter your name", "name");
+var player = prompt("Nickname for the game", "name");
 localStorage.setItem("playerName", player);
 var game = new Phaser.Game(414, 736, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 //var game = new Phaser.Game(window.screen.availWidth * window.devicePixelRatio, 
@@ -48,22 +48,22 @@ function preload() {
 	game.stage.backgroundColor = "#697e96";
 	game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 	game.scale.pageAlignHorizontally = true;
-   // game.scale.pageAlignVertically = true;
+    // game.scale.pageAlignVertically = true;
     game.stage.disableVisibilityChange = true;
-	game.load.image('ship', 'assets/fighters2.png');
-   // game.load.image('bullet', 'assets/PNG/Lasers/laserBlue01.png');
+	game.load.image('ship', 'assets/userControl.png');
+    // game.load.image('bullet', 'assets/PNG/Lasers/laserBlue01.png');
     game.load.image('bullet', 'assets/bullet0.png');
-   // game.load.image('alien', 'http://examples.phaser.io/assets/sprites/space-baddie.png');
+    // game.load.image('alien', 'http://examples.phaser.io/assets/sprites/space-baddie.png');
     game.load.image('alien', 'assets/enemy1.png');
-// parallax backgroud
-    game.load.image('starfield', 'http://blog.sklambert.com/wp-content/uploads/2012/09/bg.png');
+    // parallax backgroud
+    game.load.image('starfield', 'assets/bg1.jpg');
     game.load.spritesheet('kaboom_old', 'http://examples.phaser.io/assets/games/invaders/explode.png', 128, 128);
     game.load.spritesheet('kaboom', 'assets/explosionBig.png',111,109);
-//game.load.image('alien', 'assets/ship3.png');
-   game.load.image('enemyBullet', 'assets/icons8-Missile-16.png');
-   game.load.spritesheet('buttonvertical', 'http://examples.phaser.io/assets/buttons/buttons-big/button-vertical.png',64,64);
-   game.load.spritesheet('buttonhorizontal', 'http://examples.phaser.io/assets/buttons/buttons-big/button-horizontal.png',96,64);
-   game.load.spritesheet('buttonfire', 'http://examples.phaser.io/assets/buttons/buttons-big/button-round-a.png',96,96);
+    //game.load.image('alien', 'assets/ship3.png');
+    game.load.image('enemyBullet', 'assets/icons8-Spaceship-50.png');
+    game.load.spritesheet('buttonvertical', 'http://examples.phaser.io/assets/buttons/buttons-big/button-vertical.png',64,64);
+    game.load.spritesheet('buttonhorizontal', 'http://examples.phaser.io/assets/buttons/buttons-big/button-horizontal.png',96,64);
+    game.load.spritesheet('buttonfire', 'http://examples.phaser.io/assets/buttons/buttons-big/button-round-a.png',96,96);
 }
 
 function create() {
@@ -119,7 +119,7 @@ function create() {
 
 	 //  Lives
     lives = game.add.group();
-    game.add.text(game.world.width - 120, 10, localStorage.getItem("playerName") + ' Lives', { font: '25px Helvetica', fill: '#111' });
+    game.add.text(game.world.width - 120, 10, '    Lives', { font: '25px Helvetica', fill: '#F4F742' });
 
     //  Text
     stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '35px Helvetica', fill: '#8B0000' });
@@ -131,10 +131,10 @@ function create() {
     {
         var ship = lives.create(game.world.width - 98 + (30 * i), 70, 'ship');
         ship.anchor.setTo(0.5, 0.5);
-        ship.angle = 90;
+        ship.angle = 20;
         ship.alpha = 0.5;
-		ship.width = 60;
-		ship.height = 40;
+		ship.width = 40;
+		ship.height = 20;
     }
 
     //  An explosion pool for aliens
@@ -149,7 +149,7 @@ function create() {
 
      //  The score
     scoreString = 'Score : ';
-    scoreText = game.add.text(10, 10, scoreString + score, { font: '34px Arial', fill: '#000' });
+    scoreText = game.add.text(10, 10, scoreString + score, { font: '34px Arial', fill: '#F4F742' });
 
     // on screen controls 
     buttonfire = game.add.button(300, 580, 'buttonfire', null, this, 0, 1, 0, 1);
