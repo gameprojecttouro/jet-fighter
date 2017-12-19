@@ -101,7 +101,7 @@ function create() {
     enemyBullets.setAll('outOfBoundsKill', true);
     enemyBullets.setAll('checkWorldBounds', true);
 
-    player = game.add.sprite(200, 520, 'ship');
+    player = game.add.sprite(200, 620, 'ship');
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
 	
@@ -122,14 +122,14 @@ function create() {
     game.add.text(game.world.width - 120, 10, '    Lives', { font: '25px Helvetica', fill: '#F4F742' });
 
     //  Text
-    stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '35px Helvetica', fill: '#8B0000' });
+    stateText = game.add.text(game.world.centerX,game.world.centerY,' ', { font: '35px Helvetica', fill: '#F75D42' });
     stateText.anchor.setTo(0.5, 0.5);
     stateText.visible = false;
 	
 	// create lives for player
     for (var i = 0; i < 3; i++) 
     {
-        var ship = lives.create(game.world.width - 98 + (30 * i), 70, 'ship');
+        var ship = lives.create(game.world.width - 98 + (30 * i), 70,   'ship');
         ship.anchor.setTo(0.5, 0.5);
         ship.angle = 20;
         ship.alpha = 0.5;
@@ -151,27 +151,7 @@ function create() {
     scoreString = 'Score : ';
     scoreText = game.add.text(10, 10, scoreString + score, { font: '34px Arial', fill: '#F4F742' });
 
-    // on screen controls 
-    buttonfire = game.add.button(300, 580, 'buttonfire', null, this, 0, 1, 0, 1);
-    buttonfire.fixedToCamera = true;
-    buttonfire.events.onInputOver.add(function(){fire=true;});
-    buttonfire.events.onInputOut.add(function(){fire=false;});
-    buttonfire.events.onInputDown.add(function(){fire=true;});
-    buttonfire.events.onInputUp.add(function(){fire=false;});        
-
-    buttonleft = game.add.button(0, 600, 'buttonhorizontal', null, this, 0, 1, 0, 1);
-    buttonleft.fixedToCamera = true;
-    buttonleft.events.onInputOver.add(function(){left=true;});
-    buttonleft.events.onInputOut.add(function(){left=false;});
-    buttonleft.events.onInputDown.add(function(){left=true;});
-    buttonleft.events.onInputUp.add(function(){left=false;});
-
-    buttonright = game.add.button(100, 600, 'buttonhorizontal', null, this, 0, 1, 0, 1);
-    buttonright.fixedToCamera = true;
-    buttonright.events.onInputOver.add(function(){right=true;});
-    buttonright.events.onInputOut.add(function(){right=false;});
-    buttonright.events.onInputDown.add(function(){right=true;});
-    buttonright.events.onInputUp.add(function(){right=false;});
+    
 }
 
 function gofull() {
@@ -212,7 +192,7 @@ function createAliens () {
     }
 
     aliens.x = 0;
-    aliens.y = 70;
+    aliens.y = 120;
 
     //  All this does is basically start the invaders moving. Notice we're moving the Group they belong to, rather than the invaders directly.
     var tween = game.add.tween(aliens).to( { x: 200 }, 2000, Phaser.Easing.Linear.None, true, 0, 1000, true);
@@ -237,17 +217,17 @@ function update () {
 
     player.body.velocity.x = 0;
 
-    if (cursors.left.isDown || left)
+    if (cursors.left.isDown)
 		
     {
 		player.body.velocity.x = -600;
     }
-    else if (cursors.right.isDown || right)
+    else if (cursors.right.isDown )
     {
         player.body.velocity.x = 600;
     }
 
-    if (fireButton.isDown || fire)
+    if (fireButton.isDown )
     {
         fireBullet();
     }
@@ -292,7 +272,7 @@ function killAlien(bullet1, alien1){
         scoreText.text = scoreString + score;
 
         enemyBullets.callAll('kill',this);
-        stateText.text = " You Won, \n Click to restart";
+        stateText.text = " You Win";
         stateText.visible = true;
 
         //the "click to restart" handler
@@ -323,7 +303,7 @@ function enemyHitsPlayer (player,bullet) {
         player.kill();
         enemyBullets.callAll('kill');
 
-        stateText.text=" GAME OVER \n Click to restart";
+        stateText.text=" GAME OVER";
         stateText.visible = true;
 
         //the "click to restart" handler
@@ -373,7 +353,7 @@ function fireBullet () {
 
         if (bullet)
         {
-            bullet.reset(player.x + 40, player.y - 12);
+            bullet.reset(player.x + 17, player.y - 12);
             bullet.body.velocity.y = -600;
             bulletTime = game.time.time + 100;
         }
